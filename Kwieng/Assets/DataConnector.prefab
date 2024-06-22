@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8739230863876157977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3073594576901466461}
+  - component: {fileID: 452870521380129371}
+  m_Layer: 0
+  m_Name: DataConnector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3073594576901466461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739230863876157977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &452870521380129371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739230863876157977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e106f557f2ba5e04e8be413473e72df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FilePath: D:/Kwieng/Kwieng/Assets/KwiengData.csv
+  csv: {fileID: 4900000, guid: fb9275087d545204893bcc65ebd14067, type: 3}
+  attributeDatasList:
+  - AttributeName: PlayerHP
+    Amount: 0
+    Damage: 0
+    HP: 50
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: EasyEnemyHP
+    Amount: 0
+    Damage: 0
+    HP: 50
+    MissedChance: 50
+    Duration: 0
+  - AttributeName: NormalEnemyHP
+    Amount: 0
+    Damage: 0
+    HP: 60
+    MissedChance: 30
+    Duration: 0
+  - AttributeName: HardEnemyHP
+    Amount: 0
+    Damage: 0
+    HP: 70
+    MissedChance: 15
+    Duration: 0
+  - AttributeName: NormalAttack
+    Amount: 0
+    Damage: 8
+    HP: 0
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: SmallAttack
+    Amount: 0
+    Damage: 5
+    HP: 0
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: PowerThrow
+    Amount: 0
+    Damage: 10
+    HP: 0
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: DoubleAttack
+    Amount: 2
+    Damage: 5
+    HP: 0
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: Heal
+    Amount: 0
+    Damage: 0
+    HP: 20
+    MissedChance: 0
+    Duration: 0
+  - AttributeName: Timing
+    Amount: 0
+    Damage: 0
+    HP: 0
+    MissedChance: 0
+    Duration: 30
+  - AttributeName: Warning
+    Amount: 0
+    Damage: 0
+    HP: 0
+    MissedChance: 0
+    Duration: 20

@@ -1,0 +1,12 @@
+Name,Amount,Damage,HP,Missed Chance (%),Duration (s)
+PlayerHP,,,50,,
+EasyEnemyHP,,,50,50,
+NormalEnemyHP,,,60,30,
+HardEnemyHP,,,70,15,
+NormalAttack,,8,,,
+SmallAttack,,5,,,
+PowerThrow,,10,,,
+DoubleAttack,2,5,,,
+Heal,,,20,,
+Timing,,,,,30
+Warning,,,,,20
