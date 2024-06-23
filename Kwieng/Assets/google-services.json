@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "402164554722",
+    "project_id": "kwiengtest",
+    "storage_bucket": "kwiengtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402164554722:android:2dfbc76850fbedc82eb7bb",
+        "android_client_info": {
+          "package_name": "com.peemdev.kwiengTest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP2GtfI7yUEJWKRk4mNrWNgUclNtdTRa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
