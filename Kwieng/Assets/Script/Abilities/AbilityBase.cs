@@ -5,17 +5,10 @@ using System;
 
 public abstract class AbilityBase : MonoBehaviour
 {
-    public Action OnAbility;
-    public Action OnFinishAbility;
+    public string AbilityName;
+    public Entity Entity;
 
-    public AttributeData AttributeData;
-
-    public virtual void Init()
-    {
-        OnAbility += OnDoAbility;
-        OnFinishAbility += OnDeAbility;
-    }
-
-    public abstract void OnDoAbility();
+    public abstract void Init(Entity _entity);
+    public abstract void DoAbility();
     public abstract void OnDeAbility();
 }

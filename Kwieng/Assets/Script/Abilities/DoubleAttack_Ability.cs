@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DoubleAttack_Ability : AbilityBase
 {
-    public override void Init()
-    {
-        base.Init();
-    }
-
     public void SetProjectile(ProjectileBase _projectTile)
     {
 
     }
 
-    public override void OnDoAbility()
+    public override void Init(Entity _entity)
+    {
+        
+    }
+
+    public override void DoAbility()
     {
         
     }

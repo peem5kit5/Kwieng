@@ -76,3 +76,10 @@ Kwieng/ProjectSettings/
 Kwieng/Temp/
 Kwieng/UserSettings/
 Kwieng/Library/
+Learning/Library/PackageCache/
+Learning/Library/
+*.exe
+Kwieng/Assets/ExternalDependencyManager/
+Kwieng/Assets/Firebase/
+Kwieng/Assets/GeneratedLocalRepo/
+Kwieng/Assets/Plugins/
