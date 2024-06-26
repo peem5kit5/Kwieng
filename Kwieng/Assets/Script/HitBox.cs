@@ -32,6 +32,9 @@ public class HitBox : MonoBehaviour
     {
         hp.OnHPChange.Invoke(damage += _bonusDamage);
 
+        if (hp.HP <= 0)
+            return;
+
         if (Type == Hit.Head)
             entity.SetAnimationOnce("Sleep UnFriendly");
         else

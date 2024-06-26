@@ -43,37 +43,43 @@ public class TapShooter : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     void Update()
     {
-        if (isCharging && IsPlaying && !IsBot && !Shooted)
-        {
-            if (!ReverseCharge)
-            {
-                PowerCharge += Time.deltaTime * 5;
-                if (PowerCharge >= MaxPowerCharge)
-                {
-                    PowerCharge = MaxPowerCharge;
-                    ReverseCharge = true;
-                }
-            }
-            else
-            {
-                PowerCharge -= Time.deltaTime * 5;
-                if (PowerCharge <= 0)
-                {
-                    PowerCharge = 0;
-                    ReverseCharge = false;
-                }
-            }
+        if (CurrentEntityToShoot is BotBehaviour)
+            IsBot = true;
+        else
+            IsBot = false;
 
-            currentSlider.SetValueWithoutNotify(PowerCharge);
+        if (!GameManagers.Instance.IsGameFinished)
+        {
+            if (isCharging && IsPlaying && !IsBot && !Shooted)
+            {
+                if (!ReverseCharge)
+                {
+                    PowerCharge += Time.deltaTime * 5;
+                    if (PowerCharge >= MaxPowerCharge)
+                    {
+                        PowerCharge = MaxPowerCharge;
+                        ReverseCharge = true;
+                    }
+                }
+                else
+                {
+                    PowerCharge -= Time.deltaTime * 5;
+                    if (PowerCharge <= 0)
+                    {
+                        PowerCharge = 0;
+                        ReverseCharge = false;
+                    }
+                }
+
+                currentSlider.SetValueWithoutNotify(PowerCharge);
+            }
         }
     }
 
     public void OnPointerDown(PointerEventData _pointerEvent)
     {
         if (IsPlaying && !IsBot && !Shooted)
-        {
             isCharging = true;
-        }
     }
 
     public void OnPointerUp(PointerEventData _pointerEvent)

@@ -7,8 +7,8 @@ public class BotBehaviour : Entity
     {
         OnTheirTurn += OnTurn;
 
-        Target = GameManager.Instance.Aunt.transform;
-        ProjectTile = GameManager.Instance.SoldierProjectile;
+        Target = GameManagers.Instance.Aunt.transform;
+        ProjectTile = GameManagers.Instance.SoldierProjectile;
 
         HeadCollider = GameObject.Find("HeadPoint_SoldierPig").GetComponent<HitBox>();
         SideCollider = GameObject.Find("SidePoint_SoldierPig").GetComponent<HitBox>();
@@ -21,8 +21,8 @@ public class BotBehaviour : Entity
 
     public override void Turn()
     {
-        GameManager.Instance.TapShooter.IsBot = true;
-        IsTheirTurn = (int)GameManager.Instance.CurrentTurn == 1;
+        IsTheirTurn = (int)GameManagers.Instance.CurrentTurn == 1;
+        GameManagers.Instance.TapShooter.IsBot = IsTheirTurn;
         Shooted = false;
 
         OnTurn(IsTheirTurn);
@@ -31,13 +31,14 @@ public class BotBehaviour : Entity
 
     public override void EndTurn()
     {
-        GameManager.Instance.TapShooter.IsBot = false;
         base.EndTurn();
     }
 
     private void OnTurn(bool _isTurn)
     {
         if (!_isTurn) return;
+
+        if (GameManagers.Instance.IsGameFinished) return;
 
         if(!Shooted)
             CalculateAndShoot();

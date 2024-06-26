@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:402164554722:android:2dfbc76850fbedc82eb7bb",
+        "mobilesdk_app_id": "1:402164554722:android:005cb36f529d86242eb7bb",
         "android_client_info": {
           "package_name": "com.peemdev.kwiengTest"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "402164554722-1mq7s3b8rdbb5789ihiv0pclr918oavs.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.peemdev.kwiengTest",
-            "certificate_hash": "18df3e5992b314e41c357da16035ee1817dc13ec"
-          }
-        },
         {
           "client_id": "402164554722-on0nl7ha7moecu9c69imntkarh771dj2.apps.googleusercontent.com",
           "client_type": 3

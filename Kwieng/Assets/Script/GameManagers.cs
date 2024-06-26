@@ -1,19 +1,16 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(UI_Controller))]
-public class GameManager : Singleton<GameManager>
+public class GameManagers : Singleton<GameManagers>
 {
     [Header("References")]
     public TapShooter TapShooter;
+    [SerializeField] private LoginController loginController;
     [SerializeField] private Timer timer;
     [SerializeField] private UI_Controller uiController;
-    [SerializeField] private Button hardDifficulty;
-    [SerializeField] private Button normalDifficulty;
-    [SerializeField] private Button easyDifficulty;
     [SerializeField] private Slider windForceSlider;
     [SerializeField] private TextMeshProUGUI turnStatusText;
 
@@ -54,6 +51,8 @@ public class GameManager : Singleton<GameManager>
     public GameObject Soldier => soldierPig;
     private HashSet<Entity> entityList = new HashSet<Entity>();
 
+    public bool IsGameFinished;
+
 #if Unity_Editor
     private void OnValidate()
     {
@@ -77,6 +76,20 @@ public class GameManager : Singleton<GameManager>
     }
 #endif
 
+    private void Start()
+    {
+        loginController = FindObjectOfType<LoginController>();
+        if (loginController)
+        {
+            if (loginController.IsHavingGoogle)
+            {
+                loginController.LoadImage(uiController.GooglePhoto);
+                uiController.UserNameText.text = loginController.UserName;
+                uiController.EmailText.text = loginController.Email;
+            }
+        }
+    }
+
     public void InitGameState_VsPlayer()
     {
         GameState = State.VsPlayer;
@@ -96,29 +109,11 @@ public class GameManager : Singleton<GameManager>
 
         var _csv = CSVDataLoader.Instance;
         auntAttributeData = _csv.AttributeDataDict["PlayerHP"];
-
-        hardDifficulty.onClick.AddListener(() =>
-        {
-            SetDifficultyButton(_csv.AttributeDataDict["HardEnemyHP"]);
-            InitGame();
-        });
-
-        normalDifficulty.onClick.AddListener(() =>
-        {
-            SetDifficultyButton(_csv.AttributeDataDict["NormalEnemyHP"]);
-            InitGame();
-        });
-
-        easyDifficulty.onClick.AddListener(() =>
-        {
-            SetDifficultyButton(_csv.AttributeDataDict["EasyEnemyHP"]);
-            InitGame();
-        });
     }
 
-    private void SetDifficultyButton(AttributeData _attributeData) => soldierAttributeData = _attributeData;
+    public void SetDifficultyButton(AttributeData _attributeData) => soldierAttributeData = _attributeData;
 
-    private void InitGame()
+    public void InitGame()
     {
         uiController.DeactivateAll();
         uiController.Activate_Gameplay(true);
@@ -133,6 +128,7 @@ public class GameManager : Singleton<GameManager>
         if(GameState == State.VsBot)
         {
             var _botBehaviour = soldierPig.AddComponent<BotBehaviour>();
+
             _botBehaviour.SetAttribute(soldierAttributeData);
             _botBehaviour.Init();
 
@@ -141,6 +137,7 @@ public class GameManager : Singleton<GameManager>
         else
         {
             var _player2 = soldierPig.AddComponent<Player>();
+
             _player2.SetPlayer(Player.PlayerState.Player2);
             _player2.AttributeData = CSVDataLoader.Instance.AttributeDataDict["PlayerHP"];
             _player2.Init();
@@ -150,6 +147,7 @@ public class GameManager : Singleton<GameManager>
 
         uiController.Canvas.sortingLayerName = "Default";
         uiController.Init();
+
         timer.Init();
 
         TapShooter.IsPlaying = true;
@@ -184,5 +182,30 @@ public class GameManager : Singleton<GameManager>
         TapShooter.IsBot = false;
         TapShooter.Shooted = false;
         timer.SetMaxTime();
+    }
+
+    public void ConclusionGame(string _loserName)
+    {
+        var _auntEntity = aunt.GetComponent<Entity>();
+        var _soldierEntity = soldierPig.GetComponent<Entity>();
+
+        if (_loserName == "Aunt")
+        {
+            uiController.Activate_Winner(true, "Soldier Win!");
+
+            _auntEntity.SetAnimationLoop("Moody UnFriendly");
+            _soldierEntity.SetAnimationLoop("Happy Friendly");
+
+        }
+        else
+        {
+            uiController.Activate_Winner(true, "Aunt Win!");
+
+            _auntEntity.SetAnimationLoop("Happy UnFriendly");
+            _soldierEntity.SetAnimationLoop("Moody Friendly");
+        }
+
+        TapShooter.gameObject.SetActive(false);
+        IsGameFinished = true;
     }
 }

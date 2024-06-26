@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Spine;
 using Spine.Unity;
-using static UnityEngine.GraphicsBuffer;
 
 public abstract class Entity : MonoBehaviour
 {
@@ -20,6 +17,10 @@ public abstract class Entity : MonoBehaviour
 
     public Transform Target;
     public GameObject ProjectTile;
+
+    [Header("Buff")]
+    public bool PowerThrow;
+    public bool Double;
 
     public Action<bool> OnTheirTurn;
 
@@ -39,7 +40,11 @@ public abstract class Entity : MonoBehaviour
         };
     }
 
-    public void SetAnimationLoop(string _animation) => SkAnimation.AnimationState.SetAnimation(0, _animation, true);
+    public void SetAnimationLoop(string _animation) 
+    {
+        SkAnimation.AnimationState.ClearTracks();
+        SkAnimation.AnimationState.SetAnimation(0, _animation, true);
+    } 
 
     public abstract void SetAttribute(AttributeData attributeData);
 
@@ -63,10 +68,17 @@ public abstract class Entity : MonoBehaviour
 
     }
 
-    public void Shoot(float _value, bool _isCalWind = false, bool _isPowerThrow = false, bool _isDouble = false)
+    public void Shoot(float _value, bool _isCalWind = false)
     {
         Rigidbody2D _projectileInstance = Instantiate(ProjectTile, HeadCollider.transform.position, Quaternion.identity).GetComponent<Rigidbody2D>();
-        _projectileInstance.GetComponent<ProjectileBase>().Entity = Target.GetComponent<Entity>();
+        var _projectTileBase = _projectileInstance.GetComponent<ProjectileBase>();
+        _projectTileBase.Entity = Target.GetComponent<Entity>();
+
+        if (PowerThrow)
+        {
+            _projectTileBase.SetDamageAddition(CSVDataLoader.Instance.AttributeDataDict["PowerThrow"].Damage);
+            PowerThrow = false;
+        }
 
         Vector2 _direction = (Vector2)Target.position - (Vector2)transform.position;
 
@@ -87,11 +99,33 @@ public abstract class Entity : MonoBehaviour
         if (_isCalWind)
         {
             Debug.Log("Wind used");
-            float _windDirection = Mathf.Sign(GameManager.Instance.WindForce);
-            Vector2 _windForce = new Vector2(_windDirection, 0) * Mathf.Abs(GameManager.Instance.WindForce) * 2;
+            float _windDirection = Mathf.Sign(GameManagers.Instance.WindForce);
+            Vector2 _windForce = new Vector2(_windDirection, 0) * Mathf.Abs(GameManagers.Instance.WindForce) * 2;
             _initialVelocity += _windForce;
         }
 
         _projectileInstance.velocity = _initialVelocity;
+
+        if (Double)
+        {
+            Double = false;
+            _projectTileBase.ByPass = true;
+            StartCoroutine(DoubleAttackDelay(_initialVelocity));
+        }
+    }
+
+    private IEnumerator DoubleAttackDelay( Vector2 _dir)
+    {
+        yield return new WaitForSeconds(1);
+
+        Rigidbody2D _doubleRb = Instantiate(ProjectTile, HeadCollider.transform.position, Quaternion.identity).GetComponent<Rigidbody2D>();
+
+        if (PowerThrow)
+        {
+            _doubleRb.GetComponent<ProjectileBase>().SetDamageAddition(CSVDataLoader.Instance.AttributeDataDict["PowerThrow"].Damage);
+            PowerThrow = false;
+        }
+
+        _doubleRb.velocity = _dir;
     }
 }

@@ -14,12 +14,14 @@ public class LoginController : MonoBehaviour
     public string GoogleAPI = "402164554722-on0nl7ha7moecu9c69imntkarh771dj2.apps.googleusercontent.com";
 
     [Header("Loaded Data")]
-    [SerializeField] private string userName, email;
-    [SerializeField] private Sprite imageToLoad;
+    public string UserName;
+    public string Email;
+    public Sprite ImageToLoad;
 
     [Header("Test References")]
+    public bool IsHavingGoogle;
     [SerializeField] private Image profileImage;
-    [SerializeField] private TextMeshProUGUI Username, Email;
+    [SerializeField] private TextMeshProUGUI username, email;
 
     private GoogleSignInConfiguration googleConfiguration;
     private Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
@@ -37,14 +39,6 @@ public class LoginController : MonoBehaviour
     }
 
     private void Start() => auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-
-    public void InitUI()
-    {
-        //Test
-        profileImage.sprite = imageToLoad;
-        Username.text = userName;
-        Email.text = email;
-    }
 
     public void GoogleLogin()
     {
@@ -88,38 +82,53 @@ public class LoginController : MonoBehaviour
 
                 user = auth.CurrentUser;
 
-                userName = user.DisplayName;
-                email = user.Email;
-               // StartCoroutine(LoadImage(CheckImageUrl(user.PhotoUrl.ToString())));
+                UserName = user.DisplayName;
+                Email = user.Email;
+                IsHavingGoogle = true;
+
                 DontDestroyOnLoad(this);
                 DontDestroyOnLoad(gameObject);
-
+                SceneManager.LoadScene(1);
             });
-
-            InitUI();
         }
     }
 
-    private IEnumerator LoadImage(string _imageUrl)
+    public void LoadImage(Image _image)
     {
-        WWW _www = new WWW(_imageUrl);
-        yield return _www;
+        StartCoroutine(LoadImage(CheckImageUrl(user.PhotoUrl.ToString()), _image));
+    }
+    private IEnumerator LoadImage(string _imageUrl, Image _image)
+    {
+        using (UnityWebRequest _www = UnityWebRequestTexture.GetTexture(_imageUrl))
+        {
+            yield return _www.SendWebRequest();
 
-        imageToLoad = Sprite.Create(_www.texture, new Rect(0, 0, _www.texture.width, _www.texture.height), new Vector2(0, 0));
+            if (_www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to load image: " + _www.error);
+            }
+            else
+            {
+                Texture2D _texture = DownloadHandlerTexture.GetContent(_www);
+                _image.sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
+            }
+        }
     }
 
-    private string CheckImageUrl(string _url)
+    private string CheckImageUrl(string url)
     {
-        if (!string.IsNullOrEmpty(_url))
-            return _url;
+        if (!string.IsNullOrEmpty(url))
+        {
+            return url;
+        }
 
-        Debug.LogError("There no Image to Profile.");
+        Debug.LogError("There is no image to profile.");
         return null;
     }
 
     public void GuestLogin()
     {
-
+        SceneManager.LoadScene(1);
     }
 
 

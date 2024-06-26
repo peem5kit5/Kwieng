@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
         hpSlider.SetValueWithoutNotify(HP);
 
         if (HP <= 0)
-            Lose();
+            GameManagers.Instance.ConclusionGame(gameObject.name);
     }
 
     public void Heal(int _heal)
@@ -43,10 +43,5 @@ public class Health : MonoBehaviour
             HP += _heal;
 
         hpSlider.SetValueWithoutNotify(HP);
-    }
-
-    private void Lose()
-    {
-
     }
 }

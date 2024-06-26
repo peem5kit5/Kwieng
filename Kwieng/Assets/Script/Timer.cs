@@ -47,7 +47,7 @@ public class Timer : MonoBehaviour
             }
 
             if (TimeToThink <= 0)
-               GameManager.Instance.EndTurn();
+               GameManagers.Instance.EndTurn();
         }
     }
 }

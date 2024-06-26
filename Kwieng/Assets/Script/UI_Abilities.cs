@@ -17,7 +17,10 @@ public class UI_Abilities : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData _pointerEvent)
     {
         //Use
-        AbilityBase.DoAbility();
-        gameObject.SetActive(false);
+        if (Entity.IsTheirTurn)
+        {
+            AbilityBase.DoAbility();
+            gameObject.SetActive(false);
+        }
     }
 }

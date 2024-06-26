@@ -14,7 +14,7 @@ public class Player : Entity
 
     public override void Turn()
     {
-        IsTheirTurn = (int)PlayerNumber == (int)GameManager.Instance.CurrentTurn;
+        IsTheirTurn = (int)PlayerNumber == (int)GameManagers.Instance.CurrentTurn;
         base.Turn();
     }
 
@@ -26,16 +26,16 @@ public class Player : Entity
             HeadCollider = GameObject.Find("HeadPoint_Aunt").GetComponent<HitBox>();
             SideCollider = GameObject.Find("SidePoint_Aunt").GetComponent<HitBox>();
 
-            Target = GameManager.Instance.Soldier.transform;
-            ProjectTile = GameManager.Instance.AuntProjectile;
+            Target = GameManagers.Instance.Soldier.transform;
+            ProjectTile = GameManagers.Instance.AuntProjectile;
         }
         else
         {
             HeadCollider = GameObject.Find("HeadPoint_SoldierPig").GetComponent<HitBox>();
             SideCollider = GameObject.Find("SidePoint_SoldierPig").GetComponent<HitBox>();
 
-            Target = GameManager.Instance.Aunt.transform;
-            ProjectTile = GameManager.Instance.SoldierProjectile;
+            Target = GameManagers.Instance.Aunt.transform;
+            ProjectTile = GameManagers.Instance.SoldierProjectile;
         }
 
         HeadCollider.SetHitBox(this);
